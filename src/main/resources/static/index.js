@@ -33,6 +33,13 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
             });
     }
 
+    $scope.createOrder = function (data) {
+        $http.post('http://localhost:8189/app/api/v1/orders/create', data)
+            .then(function (response) {
+                $scope.loadCart();
+            });
+    }
+
     $scope.loadCart = function () {
         $http.get('http://localhost:8189/app/api/v1/carts')
             .then(function (response) {
