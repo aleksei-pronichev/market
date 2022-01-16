@@ -31,12 +31,13 @@ public class ProductsController {
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_price", required = false) Integer minPrice,
             @RequestParam(name = "max_price", required = false) Integer maxPrice,
-            @RequestParam(name = "title_part", required = false) String titlePart
+            @RequestParam(name = "title_part", required = false) String titlePart,
+            @RequestParam(name = "category_part", required = false) String category_part
     ) {
         if (page < 1) {
             page = 1;
         }
-        return productsService.findAll(minPrice, maxPrice, titlePart, page).map(
+        return productsService.findAll(minPrice, maxPrice, titlePart, category_part, page).map(
                 p -> productConverter.entityToDto(p)
         );
     }
@@ -51,7 +52,7 @@ public class ProductsController {
     public ProductDto saveNewProduct(@RequestBody ProductDto productDto) {
         productValidator.validate(productDto);
         Product product = productConverter.dtoToEntity(productDto);
-        product = productsService.save(product);
+        product = productsService.save(product, productDto.getCategory());
         return productConverter.entityToDto(product);
     }
 

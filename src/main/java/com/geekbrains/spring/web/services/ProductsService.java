@@ -6,6 +6,8 @@ import com.geekbrains.spring.web.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.repositories.ProductsRepository;
 import com.geekbrains.spring.web.repositories.specifications.ProductsSpecifications;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,12 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductsService {
     private final ProductsRepository productsRepository;
+    private final CategoryService categoryService;
 
-    public Page<Product> findAll(Integer minPrice, Integer maxPrice, String partTitle, Integer page) {
+    public Page<Product> findAll(Integer minPrice, Integer maxPrice, String partTitle, String partCategoryTitle, Integer page) {
         Specification<Product> spec = Specification.where(null);
         if (minPrice != null) {
             spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(minPrice));
@@ -29,6 +33,9 @@ public class ProductsService {
         }
         if (partTitle != null) {
             spec = spec.and(ProductsSpecifications.titleLike(partTitle));
+        }
+        if (partCategoryTitle != null) {
+            spec = spec.and(ProductsSpecifications.categoryLike(partCategoryTitle));
         }
 
         return productsRepository.findAll(spec, PageRequest.of(page - 1, 8));
@@ -42,7 +49,11 @@ public class ProductsService {
         productsRepository.deleteById(id);
     }
 
-    public Product save(Product product) {
+    @Transactional(rollbackFor = DataAccessException.class)
+    public Product save(Product product, String category) {
+        log.info("In category: {} dave new product: {}", category, product);
+
+        product.setCategory(categoryService.findByTitle(category));
         return productsRepository.save(product);
     }
 

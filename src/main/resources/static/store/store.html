@@ -5,20 +5,28 @@
 
     <div class="row g-2">
         <div class="col-6 col-md-2">
-            <form novalidate ng-submit="loadProducts()">
+            <form ng-submit="loadProducts()" novalidate>
                 <div class="form-floating input-group-sm">
-                    <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
+                    <input class="form-control" id="filterTitle" ng-model="filter.title_part" placeholder=""
+                           type="text">
                     <label for="filterTitle">Название продукта</label>
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <input type="number" class="form-control" id="filterMinPrice" placeholder="" ng-model="filter.min_price">
+                    <input class="form-control" id="filterMinPrice" ng-model="filter.min_price" placeholder=""
+                           type="number">
                     <label for="filterMinPrice">Мин. цена</label>
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
                     <input type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.max_price">
                     <label for="filterMaxPrice">Макс. цена</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <input class="form-control" id="filterCategory" ng-model="filter.category_part" placeholder=""
+                           type="text">
+                    <label for="filterCategory">Категория</label>
                 </div>
                 <p></p>
                 <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Применить</button>
@@ -29,6 +37,7 @@
                 <tr>
                     <td>ID</td>
                     <td>Название</td>
+                    <td>Категория</td>
                     <td>Цена</td>
                     <td></td>
                 </tr>
@@ -36,6 +45,7 @@
                 <tr ng-repeat="p in ProductsPage.content">
                     <td>{{p.id}}</td>
                     <td>{{p.title}}</td>
+                    <td>{{p.category}}</td>
                     <td>{{p.price}}</td>
                     <td>
                         <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
