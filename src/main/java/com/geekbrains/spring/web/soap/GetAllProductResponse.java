@@ -8,6 +8,8 @@
 
 package com.geekbrains.spring.web.soap;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="productSOAP" type="{http://www.geekbrains.com/market}productSOAP"/&gt;
+ *         &lt;element name="products" type="{http://www.geekbrains.com/market}productSOAP" maxOccurs="unbounded"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -36,36 +38,41 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "productSOAP"
+    "products"
 })
-@XmlRootElement(name = "getProductResponse")
-public class GetProductResponse {
+@XmlRootElement(name = "getAllProductResponse")
+public class GetAllProductResponse {
 
     @XmlElement(required = true)
-    protected ProductSOAP productSOAP;
+    protected List<ProductSOAP> products;
 
     /**
-     * Gets the value of the productSOAP property.
+     * Gets the value of the products property.
      * 
-     * @return
-     *     possible object is
-     *     {@link ProductSOAP }
-     *     
-     */
-    public ProductSOAP getProductSOAP() {
-        return productSOAP;
-    }
-
-    /**
-     * Sets the value of the productSOAP property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the products property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link ProductSOAP }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getProducts().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link ProductSOAP }
+     * 
+     * 
      */
-    public void setProductSOAP(ProductSOAP value) {
-        this.productSOAP = value;
+    public List<ProductSOAP> getProducts() {
+        if (products == null) {
+            products = new ArrayList<ProductSOAP>();
+        }
+        return this.products;
     }
 
 }
